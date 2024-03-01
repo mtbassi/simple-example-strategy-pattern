@@ -2,7 +2,7 @@ package br.com.mtbassi.simpleexamplestrategypattern.domain;
 
 import java.math.BigDecimal;
 
-public enum BonusEnum {
+public enum SeniorityEnum {
 
     JUNIOR {
         @Override
