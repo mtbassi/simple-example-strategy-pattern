@@ -1,6 +1,5 @@
 package br.com.mtbassi.simpleexamplestrategypattern.domain;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
