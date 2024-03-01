@@ -6,7 +6,6 @@ import br.com.mtbassi.simpleexamplestrategypattern.strategy.SeniorityStrategy;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @Component
 public class SeniorityJuniorStrategy implements SeniorityStrategy {
@@ -17,11 +16,11 @@ public class SeniorityJuniorStrategy implements SeniorityStrategy {
 
     @Override
     public Response calculateSalaryBonus(BigDecimal salary) {
-        var salaryIncrease = salary.add(SeniorityEnum.JUNIOR.calculateSalaryBonus(salary)).setScale(2, RoundingMode.HALF_EVEN);
+        var salaryIncrease = salary.add(SeniorityEnum.JUNIOR.calculateSalaryBonus(salary));
         return Response.builder()
                 .bonusPercentage(SeniorityEnum.calculateBonusPercentage(salary, salaryIncrease))
-                .previousSalary(salary.setScale(2, RoundingMode.HALF_EVEN))
-                .updatedSalary(salaryIncrease)
+                .previousSalary(formatValue(salary))
+                .updatedSalary(formatValue(salaryIncrease))
                 .build();
     }
 }
