@@ -23,7 +23,7 @@ public enum SeniorityEnum {
             return currentWage.multiply(BigDecimal.valueOf(0.4));
         }
     },
-    TECHNICAL_LIDER {
+    TECH_LEAD {
         @Override
         public BigDecimal calculateSalaryBonus(BigDecimal currentWage) {
             return currentWage.multiply(BigDecimal.valueOf(0.5));
