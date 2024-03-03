@@ -67,8 +67,8 @@ public class BonusControllerTest {
         when(service.calculateSalaryBonus(any())).thenReturn(response);
 
         mockMvc.perform(post(URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(getRequest(request)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(getRequest(request)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.bonusPercentage", CoreMatchers.isA(Number.class)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.previousSalary", CoreMatchers.isA(Number.class)))
@@ -79,8 +79,20 @@ public class BonusControllerTest {
         verifyNoMoreInteractions(service);
     }
 
+    @Test
     @SneakyThrows
-    private String getRequest(Object value){
+    void shouldReturnErrorForInvalidRequest() {
+        mockMvc.perform(post(URL)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(getRequest(Request.builder().build())))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andReturn();
+
+        verifyNoInteractions(service);
+    }
+
+    @SneakyThrows
+    private String getRequest(Object value) {
         return new ObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE, false)
                 .writer()
                 .withDefaultPrettyPrinter()
