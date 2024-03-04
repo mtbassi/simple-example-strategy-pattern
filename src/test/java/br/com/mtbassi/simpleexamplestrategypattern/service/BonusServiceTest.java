@@ -52,7 +52,7 @@ public class BonusServiceTest {
         when(seniorityFactory.defineStrategy(any(SeniorityEnum.class))).thenReturn(new SeniorityPlenoStrategy());
         var result = service.calculateSalaryBonus(Request.builder()
                 .salary(BigDecimal.valueOf(100L))
-                .seniority(SeniorityEnum.JUNIOR)
+                .seniority(SeniorityEnum.PLENO)
                 .build());
         assertNotNull("Response is null.",result);
         assertEquals("Bonus differs from what is expected for junior seniority.",
@@ -73,7 +73,7 @@ public class BonusServiceTest {
         when(seniorityFactory.defineStrategy(any(SeniorityEnum.class))).thenReturn(new SenioritySeniorStrategy());
         var result = service.calculateSalaryBonus(Request.builder()
                 .salary(BigDecimal.valueOf(100L))
-                .seniority(SeniorityEnum.JUNIOR)
+                .seniority(SeniorityEnum.SENIOR)
                 .build());
         assertNotNull("Response is null.",result);
         assertEquals("Bonus differs from what is expected for junior seniority.",
@@ -94,7 +94,7 @@ public class BonusServiceTest {
         when(seniorityFactory.defineStrategy(any(SeniorityEnum.class))).thenReturn(new SeniorityTechLeadStrategy());
         var result = service.calculateSalaryBonus(Request.builder()
                 .salary(BigDecimal.valueOf(100L))
-                .seniority(SeniorityEnum.JUNIOR)
+                .seniority(SeniorityEnum.TECH_LEAD)
                 .build());
         assertNotNull("Response is null.",result);
         assertEquals("Bonus differs from what is expected for junior seniority.",
@@ -115,7 +115,7 @@ public class BonusServiceTest {
         when(seniorityFactory.defineStrategy(any(SeniorityEnum.class))).thenReturn(new SeniorityManagerStrategy());
         var result = service.calculateSalaryBonus(Request.builder()
                 .salary(BigDecimal.valueOf(100L))
-                .seniority(SeniorityEnum.JUNIOR)
+                .seniority(SeniorityEnum.MANAGER)
                 .build());
         assertNotNull("Response is null.",result);
         assertEquals("Bonus differs from what is expected for junior seniority.",
