@@ -3,9 +3,7 @@ package br.com.mtbassi.simpleexamplestrategypattern.service;
 import br.com.mtbassi.simpleexamplestrategypattern.domain.Request;
 import br.com.mtbassi.simpleexamplestrategypattern.domain.SeniorityEnum;
 import br.com.mtbassi.simpleexamplestrategypattern.factory.SeniorityFactory;
-import br.com.mtbassi.simpleexamplestrategypattern.strategy.impl.SeniorityJuniorStrategy;
-import br.com.mtbassi.simpleexamplestrategypattern.strategy.impl.SeniorityPlenoStrategy;
-import br.com.mtbassi.simpleexamplestrategypattern.strategy.impl.SenioritySeniorStrategy;
+import br.com.mtbassi.simpleexamplestrategypattern.strategy.impl.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -86,6 +84,48 @@ public class BonusServiceTest {
                 result.getPreviousSalary());
         assertEquals("New salary differs from what is expected for junior seniority.",
                 BigDecimal.valueOf(14000, 2),
+                result.getUpdatedSalary());
+        verify(seniorityFactory).defineStrategy(any(SeniorityEnum.class));
+        verifyNoMoreInteractions(seniorityFactory);
+    }
+
+    @Test
+    void calculateSeniorityTechLeadShouldReturnSuccess(){
+        when(seniorityFactory.defineStrategy(any(SeniorityEnum.class))).thenReturn(new SeniorityTechLeadStrategy());
+        var result = service.calculateSalaryBonus(Request.builder()
+                .salary(BigDecimal.valueOf(100L))
+                .seniority(SeniorityEnum.JUNIOR)
+                .build());
+        assertNotNull("Response is null.",result);
+        assertEquals("Bonus differs from what is expected for junior seniority.",
+                BigDecimal.valueOf(50L),
+                result.getBonusPercentage());
+        assertEquals("Previous salary differs from what is expected for junior seniority.",
+                BigDecimal.valueOf(10000, 2),
+                result.getPreviousSalary());
+        assertEquals("New salary differs from what is expected for junior seniority.",
+                BigDecimal.valueOf(15000, 2),
+                result.getUpdatedSalary());
+        verify(seniorityFactory).defineStrategy(any(SeniorityEnum.class));
+        verifyNoMoreInteractions(seniorityFactory);
+    }
+
+    @Test
+    void calculateSeniorityManagerShouldReturnSuccess(){
+        when(seniorityFactory.defineStrategy(any(SeniorityEnum.class))).thenReturn(new SeniorityManagerStrategy());
+        var result = service.calculateSalaryBonus(Request.builder()
+                .salary(BigDecimal.valueOf(100L))
+                .seniority(SeniorityEnum.JUNIOR)
+                .build());
+        assertNotNull("Response is null.",result);
+        assertEquals("Bonus differs from what is expected for junior seniority.",
+                BigDecimal.valueOf(60L),
+                result.getBonusPercentage());
+        assertEquals("Previous salary differs from what is expected for junior seniority.",
+                BigDecimal.valueOf(10000, 2),
+                result.getPreviousSalary());
+        assertEquals("New salary differs from what is expected for junior seniority.",
+                BigDecimal.valueOf(16000, 2),
                 result.getUpdatedSalary());
         verify(seniorityFactory).defineStrategy(any(SeniorityEnum.class));
         verifyNoMoreInteractions(seniorityFactory);
